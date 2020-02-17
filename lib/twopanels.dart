@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:outfitter/imageSlider.dart';
+
 class TwoPanels extends StatefulWidget {
   final AnimationController controller;
 
@@ -60,9 +62,10 @@ class _TwoPanelsState extends State<TwoPanels> {
                   ),
                   new Expanded(
                     child: new Center(
-                      child: new Text("Outfitter",
-                          style: new TextStyle(
-                              fontSize: 24.0, color: Colors.black)),
+                      child: ImageSlider(),
+//                      child: new Text("Outfitter2",
+//                          style: new TextStyle(
+//                              fontSize: 24.0, color: Colors.black)),
                     ),
                   )
                 ],
