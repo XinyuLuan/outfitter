@@ -55,7 +55,7 @@ class _ImageSliderState extends State<ImageSlider> {
             }).toList(),
           ),
           CarouselSlider(
-            height: 200,
+            height: 250,
             initialPage: 0,
             enlargeCenterPage: true,    //make center image larger
             onPageChanged: (index) {
