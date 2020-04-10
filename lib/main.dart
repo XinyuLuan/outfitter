@@ -2,10 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:outfitter/home_page.dart';
 import 'package:outfitter/twopanels.dart';
-import 'package:outfitter/NavBar.dart';
+import 'package:outfitter/components/NavBar.dart';
 import 'package:flutter/services.dart';
-
-
 
 void main() => runApp(MyApp());
 
@@ -18,7 +16,7 @@ class MyApp extends StatelessWidget {
 //      theme: ThemeData(
 //        primarySwatch: Colors.blue,
 //      ),
-      theme: new ThemeData(primarySwatch: Colors.teal),
+      theme: new ThemeData(primarySwatch: Colors.amber),
       home: MyHomePage(),
     );
   }
