@@ -4,8 +4,10 @@ import 'package:carousel_slider/carousel_slider.dart';
 
 class ImageSlider extends StatefulWidget {
 
-  ImageSlider({Key key, this.tops}) : super(key: key);
+  ImageSlider({Key key, this.tops, this.pants, this.shoes}) : super(key: key);
   final List<String> tops;
+  final List<String> pants;
+  final List<String> shoes;
   @override
   _ImageSliderState createState() => _ImageSliderState();
 }
@@ -83,76 +85,76 @@ class _ImageSliderState extends State<ImageSlider> {
               );
             }).toList(),
           ),
-//          pants.isEmpty?
+          widget.pants.isEmpty?
           Container(
             padding: EdgeInsets.all(100.0),
               child: Text("Select pants")
+          )
+              : CarouselSlider(
+            height: 250,
+            initialPage: 0,
+            enlargeCenterPage: true, //make center image larger
+            onPageChanged: (index) {
+              setState(() {
+                _current = index;
+              });
+            },
+            items: widget.pants.map((img) {
+              return Builder(
+                builder: (BuildContext context) {
+                  return Container(
+                    width: MediaQuery.of(context).size.width, //screen width
+                    margin: EdgeInsets.symmetric(horizontal: 10.0),
+//                    decoration: BoxDecoration(color: Colors.amberAccent),
+                    child: img.contains('http')
+                        ? Image.network(
+                            img,
+                            fit: BoxFit.fitHeight,
+                          )
+                        : Image.asset(
+                            img,
+                            fit: BoxFit.fitHeight,
+                          ),
+                  );
+                },
+              );
+            }).toList(),
           ),
-//              : CarouselSlider(
-//            height: 250,
-//            initialPage: 0,
-//            enlargeCenterPage: true, //make center image larger
-//            onPageChanged: (index) {
-//              setState(() {
-//                _current = index;
-//              });
-//            },
-//            items: pants.map((img) {
-//              return Builder(
-//                builder: (BuildContext context) {
-//                  return Container(
-//                    width: MediaQuery.of(context).size.width, //screen width
-//                    margin: EdgeInsets.symmetric(horizontal: 10.0),
-////                    decoration: BoxDecoration(color: Colors.amberAccent),
-//                    child: img.contains('http')
-//                        ? Image.network(
-//                            img,
-//                            fit: BoxFit.fitHeight,
-//                          )
-//                        : Image.asset(
-//                            img,
-//                            fit: BoxFit.fitHeight,
-//                          ),
-//                  );
-//                },
-//              );
-//            }).toList(),
-//          ),
-//          shoes.isEmpty?
+          widget.shoes.isEmpty?
           Container(
               padding: EdgeInsets.all(50.0),
               child: Text("Select shoes")
+          )
+        :CarouselSlider(
+            height: 80,
+            initialPage: 0,
+            enlargeCenterPage: true, //make center image larger
+            onPageChanged: (index) {
+              setState(() {
+                _current = index;
+              });
+            },
+            items: widget.shoes.map((img) {
+              return Builder(
+                builder: (BuildContext context) {
+                  return Container(
+                    width: MediaQuery.of(context).size.width, //screen width
+                    margin: EdgeInsets.symmetric(horizontal: 10.0),
+//                    decoration: BoxDecoration(color: Colors.amberAccent),
+                    child: img.contains('http')
+                        ? Image.network(
+                            img,
+                            fit: BoxFit.fitHeight,
+                          )
+                        : Image.asset(
+                            img,
+                            fit: BoxFit.fitHeight,
+                          ),
+                  );
+                },
+              );
+            }).toList(),
           ),
-//        :CarouselSlider(
-//            height: 80,
-//            initialPage: 0,
-//            enlargeCenterPage: true, //make center image larger
-//            onPageChanged: (index) {
-//              setState(() {
-//                _current = index;
-//              });
-//            },
-//            items: shoes.map((img) {
-//              return Builder(
-//                builder: (BuildContext context) {
-//                  return Container(
-//                    width: MediaQuery.of(context).size.width, //screen width
-//                    margin: EdgeInsets.symmetric(horizontal: 10.0),
-////                    decoration: BoxDecoration(color: Colors.amberAccent),
-//                    child: img.contains('http')
-//                        ? Image.network(
-//                            img,
-//                            fit: BoxFit.fitHeight,
-//                          )
-//                        : Image.asset(
-//                            img,
-//                            fit: BoxFit.fitHeight,
-//                          ),
-//                  );
-//                },
-//              );
-//            }).toList(),
-//          ),
         ],
       ),
     );

@@ -20,7 +20,9 @@ class _TwoPanels2State extends State<TwoPanels2> {
   final DatabaseReference ref = FirebaseDatabase.instance.reference();
 
   var imageList = [];
-  var tops = [];
+  List<String> tops = [];
+  List<String> pants = [];
+  List<String> shoes = [];
 //
 //  _TwoPanels2State() {
 //    ref.child("photos/").once().then((DataSnapshot snapshot) {
@@ -112,6 +114,8 @@ class _TwoPanels2State extends State<TwoPanels2> {
       print("Inside selectedImage: " + imageList.toString());
       setState(() {
         tops = topsTemp;
+        pants = pantsTemp;
+        shoes = shoesTemp;
       });
       print("Tops (in twoPanals2) : " + tops.toString());
     }).catchError((e){
@@ -134,8 +138,7 @@ class _TwoPanels2State extends State<TwoPanels2> {
                     flex: 8,
                     child: Container(
                       child: GridView.builder(
-//                          itemCount: imageList.length,
-                          itemCount: 3,
+                          itemCount: imageList.length,
                           gridDelegate:
                           new SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2),
@@ -184,7 +187,7 @@ class _TwoPanels2State extends State<TwoPanels2> {
                   ),
                   Expanded(
                     child: new Center(
-                      child: ImageSlider(tops: tops,),
+                      child: ImageSlider(tops: tops, pants: pants, shoes: shoes,),
                     ),
                   ),
                   RaisedButton(onPressed: (){
