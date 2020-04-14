@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 class ImageSlider extends StatefulWidget {
+
+  ImageSlider({Key key, this.tops}) : super(key: key);
+  final List<String> tops;
   @override
   _ImageSliderState createState() => _ImageSliderState();
 }
@@ -11,55 +14,28 @@ class _ImageSliderState extends State<ImageSlider> {
 //  PageController pageController;
 
   int _current = 1;
+
+  // ignore: non_constant_identifier_names
+//  List<String> Tops;
+//  _ImageSliderState(this.Tops);
   final DatabaseReference ref = FirebaseDatabase.instance.reference();
   //image list
   // ignore: non_constant_identifier_names
-  List<String> tops = ['assets/tops/Tshirt1.png', 'assets/tops/Tshirt2.png'];
-  List<String> pants = ['assets/pants/pants1.png', 'assets/pants/pants2.png'];
-  List<String> shoes = ['assets/shoes/shoes1.png', 'assets/shoes/shoes2.png'];
+//  List<String> tops = ['assets/tops/Tshirt1.png', 'assets/tops/Tshirt2.png'];
+//  List<String> pants = ['assets/pants/pants1.png', 'assets/pants/pants2.png'];
+//  List<String> shoes = ['assets/shoes/shoes1.png', 'assets/shoes/shoes2.png'];
 //  List<String> images = [];
 //  List<String> pants = [];
 //  List<String> shoes = [];
 
-  _selectedImage() {
-    List<String> topsTemp = [];
-    List<String> pantsTemp = [];
-    List<String> shoesTemp = [];
-
-    ref.child("photos").once().then((il) {
-      print("load all the image info successful (imageSlider)");
-      print(il.value);
-      il.value.forEach((k, v) {
-        if (v['selected'] == "true") {
-          if (v['type'] == "type4Cloth.top" && v['image'] != null) {
-            topsTemp.add(v['image']);
-          }
-          if (v['type'] == "type4Cloth.pants" && v['image'] != null) {
-            pantsTemp.add(v['image']);
-          }
-          if (v['type'] == "type4Cloth.shoes" && v['image'] != null) {
-            shoesTemp.add(v['image']);
-          }
-        }
-      });
-      print(topsTemp);
-      setState(() {
-        tops = topsTemp;
-        pants = pantsTemp;
-        shoes = shoesTemp;
-      });
-    }).catchError((e) {
-      print("Failed to load all the image info (imageSlider) " + e.toString());
-    });
-  }
-
   @override
   void initState() {
     super.initState();
-    _selectedImage();
+//    _selectedImage();
+    print("Get into Imageslider--------------------------------------");
+    print(widget.tops.toString());
     ref.child("photo").onChildChanged.listen((e){
-      print("get selected Image list (in imageSlider)");
-      _selectedImage();
+      print(widget.tops.toString());
     });
   }
 
@@ -70,6 +46,12 @@ class _ImageSliderState extends State<ImageSlider> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
+          widget.tops.isEmpty?
+          Container(
+              padding: EdgeInsets.all(100.0),
+              child: Text("Select tops")
+          )
+          :
           CarouselSlider(
             height: 200,
             initialPage: 0,
@@ -80,87 +62,97 @@ class _ImageSliderState extends State<ImageSlider> {
                 _current = index;
               });
             },
-            items: tops.map((img) {
+            items: widget.tops.map((img) {
               return Builder(
                 builder: (BuildContext context) {
                   return Container(
                     width: MediaQuery.of(context).size.width, //screen width
                     margin: EdgeInsets.symmetric(horizontal: 10.0),
 //                    decoration: BoxDecoration(color: Colors.amberAccent),
-                    child: img.contains('http')
-                        ? Image.network(
-                            img,
-                            fit: BoxFit.fitWidth,
-                          )
-                        : Image.asset(
-                            img,
-                            fit: BoxFit.fitHeight,
-                          ),
+                    child:  img.contains('http')
+                            ? Image.network(
+                                img,
+                                fit: BoxFit.fitHeight,
+                              )
+                            : Image.asset(
+                                img,
+                                fit: BoxFit.fitHeight,
+                              ),
                   );
                 },
               );
             }).toList(),
           ),
-          CarouselSlider(
-            height: 250,
-            initialPage: 0,
-            enlargeCenterPage: true, //make center image larger
-            onPageChanged: (index) {
-              setState(() {
-                _current = index;
-              });
-            },
-            items: pants.map((img) {
-              return Builder(
-                builder: (BuildContext context) {
-                  return Container(
-                    width: MediaQuery.of(context).size.width, //screen width
-                    margin: EdgeInsets.symmetric(horizontal: 10.0),
-//                    decoration: BoxDecoration(color: Colors.amberAccent),
-                    child: img.contains('http')
-                        ? Image.network(
-                            img,
-                            fit: BoxFit.fitWidth,
-                          )
-                        : Image.asset(
-                            img,
-                            fit: BoxFit.fitHeight,
-                          ),
-                  );
-                },
-              );
-            }).toList(),
+//          pants.isEmpty?
+          Container(
+            padding: EdgeInsets.all(100.0),
+              child: Text("Select pants")
           ),
-          CarouselSlider(
-            height: 80,
-            initialPage: 0,
-            enlargeCenterPage: true, //make center image larger
-            onPageChanged: (index) {
-              setState(() {
-                _current = index;
-              });
-            },
-            items: shoes.map((img) {
-              return Builder(
-                builder: (BuildContext context) {
-                  return Container(
-                    width: MediaQuery.of(context).size.width, //screen width
-                    margin: EdgeInsets.symmetric(horizontal: 10.0),
-//                    decoration: BoxDecoration(color: Colors.amberAccent),
-                    child: img.contains('http')
-                        ? Image.network(
-                            img,
-                            fit: BoxFit.fitHeight,
-                          )
-                        : Image.asset(
-                            img,
-                            fit: BoxFit.fitHeight,
-                          ),
-                  );
-                },
-              );
-            }).toList(),
+//              : CarouselSlider(
+//            height: 250,
+//            initialPage: 0,
+//            enlargeCenterPage: true, //make center image larger
+//            onPageChanged: (index) {
+//              setState(() {
+//                _current = index;
+//              });
+//            },
+//            items: pants.map((img) {
+//              return Builder(
+//                builder: (BuildContext context) {
+//                  return Container(
+//                    width: MediaQuery.of(context).size.width, //screen width
+//                    margin: EdgeInsets.symmetric(horizontal: 10.0),
+////                    decoration: BoxDecoration(color: Colors.amberAccent),
+//                    child: img.contains('http')
+//                        ? Image.network(
+//                            img,
+//                            fit: BoxFit.fitHeight,
+//                          )
+//                        : Image.asset(
+//                            img,
+//                            fit: BoxFit.fitHeight,
+//                          ),
+//                  );
+//                },
+//              );
+//            }).toList(),
+//          ),
+//          shoes.isEmpty?
+          Container(
+              padding: EdgeInsets.all(50.0),
+              child: Text("Select shoes")
           ),
+//        :CarouselSlider(
+//            height: 80,
+//            initialPage: 0,
+//            enlargeCenterPage: true, //make center image larger
+//            onPageChanged: (index) {
+//              setState(() {
+//                _current = index;
+//              });
+//            },
+//            items: shoes.map((img) {
+//              return Builder(
+//                builder: (BuildContext context) {
+//                  return Container(
+//                    width: MediaQuery.of(context).size.width, //screen width
+//                    margin: EdgeInsets.symmetric(horizontal: 10.0),
+////                    decoration: BoxDecoration(color: Colors.amberAccent),
+//                    child: img.contains('http')
+//                        ? Image.network(
+//                            img,
+//                            fit: BoxFit.fitHeight,
+//                          )
+//                        : Image.asset(
+//                            img,
+//                            fit: BoxFit.fitHeight,
+//                          ),
+//                  );
+//                },
+//              );
+//            }).toList(),
+//          ),
         ],
       ),
     );

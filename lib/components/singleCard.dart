@@ -14,11 +14,9 @@ class _SingleCardState extends State<SingleCard> {
   var selected;
   var type;
   var image;
-//  _SingleCardState(){
-//    _getInfo();
-//  }
 
   _getInfo(){
+    print("Come here for single Card?");
     ref.child("photos").child('${widget.timestamp}').once().then((il) {
       print("Get a single card image successful");
       print(il.value["image"]);
@@ -47,53 +45,44 @@ class _SingleCardState extends State<SingleCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
-//      child: Image.network(imageUrl,fit: BoxFit.fitWidth,),
       child: Hero(
         tag: '$imageUrl',
         child: Material(
           child: InkWell(
             onTap: (){
               print("Clicked");
-              if( selected == "false"){
-                setState(() {
-                  selected = "true";
-                });
-                ref.child("photos").child('${widget.timestamp}').update({
-                  "selected" : "true",
-                }).then((v){
-                  print("Update selected successful");
-                }).catchError((e){
-                  print("Failed to update selected " + e.toString());
-                });
-              }
-              else if( selected == "true"){
-                setState(() {
-                  selected = "false";
-                });
-                ref.child("photos").child('${widget.timestamp}').update({
-                  "selected" : "false",
-                }).then((v){
-                  print("Update selected successful");
-                }).catchError((e){
-                  print("Failed to update selected " + e.toString());
-                });
-              }
-
+              setState(() {
+                selected = !selected;
+              });
+              ref.child("photos").child('${widget.timestamp}').update({
+                "selected" : selected,
+              }).then((v){
+                print("Update selected option successful (single card)");
+              }).catchError((e){
+                print("Failed to update selected (single card) " + e.toString());
+              });
             },
             child: GridTile(
-              footer: Container(
-                color: Colors.white54,
-                child: ListTile(
-                  leading: Text("$selected-$type", style: TextStyle(fontWeight: FontWeight.bold),),
-                ),
-              ),
+//              footer: Container(
+//                color: Colors.white54,
+//                child: ListTile(
+//                  leading: Text("$type", style: TextStyle(fontWeight: FontWeight.bold),),
+//                ),
+//              ),
                 // !!! the problem is here, the text format of Image network
               child: Image.network(imageUrl != null ? '$imageUrl' : "http://tineye.com/images/widgets/mona.jpg",
-              fit: BoxFit.cover,),
+              fit: BoxFit.contain,),
             ),
           ),
         ),
       ),
+      shape: selected == true
+          ? new RoundedRectangleBorder(
+          side: new BorderSide(color: Colors.black, width: 3.0),
+          borderRadius: BorderRadius.circular(2.0))
+          : new RoundedRectangleBorder(
+          side: new BorderSide(color: Colors.white, width: 2.0),
+          borderRadius: BorderRadius.circular(4.0)),
     );
   }
 }

@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
-import 'package:outfitter/home_page.dart';
 import 'package:outfitter/twopanels.dart';
+import 'package:outfitter/twopanels2.dart';
 import 'package:outfitter/components/NavBar.dart';
 import 'package:flutter/services.dart';
 
@@ -13,9 +13,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-//      theme: ThemeData(
-//        primarySwatch: Colors.blue,
-//      ),
       theme: new ThemeData(primarySwatch: Colors.amber),
       home: MyHomePage(),
     );
@@ -56,7 +53,7 @@ class _BackdropPageState extends State<MyHomePage>
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("Shop"),
+        title: new Text("Wardrobe"),
         elevation: 0.0,
         leading: new IconButton(
           onPressed: () {
@@ -68,10 +65,10 @@ class _BackdropPageState extends State<MyHomePage>
           ),
         ),
       ),
-      body: new TwoPanels(
+      body: new TwoPanels2(
         controller: controller,
       ),
-      endDrawer: NavBar(),
+//      endDrawer: NavBar(),
     );
   }
 }

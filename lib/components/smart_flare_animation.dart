@@ -1,12 +1,15 @@
+import 'dart:io';
+
 import 'package:camera/camera.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flare_flutter/flare_controls.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flare_flutter/flare_actor.dart';
-import 'package:outfitter/components/photoPage.dart';
+import 'package:image_picker/image_picker.dart';
 
 import 'cameraView.dart';
+import 'display_pictureScreen.dart';
 
 enum AnimationToPlay {
   Activate,
@@ -36,6 +39,8 @@ class _SmartFlareAnimationState extends State<SmartFlareAnimation> {
   static const double AnimationWidth = 295.0;
   static const double AnimationHeight = 251.0;
 
+  File pickedImage;
+
   bool isOpen = false;
 
   @override
@@ -45,13 +50,23 @@ class _SmartFlareAnimationState extends State<SmartFlareAnimation> {
 
   }
 
+  Future getImage() async {
+    var tempImage = await ImagePicker.pickImage(source: ImageSource.gallery).then((img){
+//      print();
+    });
+    print("path: " + tempImage.path);
+    setState(() {
+      pickedImage = tempImage;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       width: AnimationWidth,
       height: AnimationHeight,
       child: GestureDetector(
-        onTapUp: (tapInfo) {
+        onTapUp: (tapInfo) async {
           var localTouchPosition = (context.findRenderObject() as RenderBox)
               .globalToLocal(tapInfo.globalPosition);
           //Where we touch
@@ -82,7 +97,7 @@ class _SmartFlareAnimationState extends State<SmartFlareAnimation> {
                 ref.child("photos/" + timeStamp.toString()).set({
                   "timeStamp": timeStamp,
                   "image" : result[0].toString(),
-                  "selected" : "false",
+                  "selected" : false,
                   "type" : result[1].toString(),
                 }).then((ml){
                   print("save image info successful");
@@ -98,10 +113,37 @@ class _SmartFlareAnimationState extends State<SmartFlareAnimation> {
           }
           else if(rightHalfTouched && topHalfTouched){
             _setAnimationToPlay(AnimationToPlay.ImageTapped);
-            Navigator.push(
+            try {
+              File tempImage;
+              tempImage = await ImagePicker.pickImage(
+                  source: ImageSource.gallery,
+              );
+              setState(() {
+                pickedImage = tempImage;
+              });
+            } catch (e) {
+              print("Failed to pick a image from gallery " + e.toString());
+            }
+            final result = await Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => PhotoPage()),
+              MaterialPageRoute(builder: (context) => DisplayPictureScreen(imagePath: pickedImage.path)),
             );
+            print("Pick image result URL: " + result[0]);
+//            Navigator.pop(context, result);
+            if(result != null){
+              var timeStamp = new DateTime.now().millisecondsSinceEpoch;
+
+              ref.child("photos/" + timeStamp.toString()).set({
+                "timeStamp": timeStamp,
+                "image" : result[0].toString(),
+                "selected" : false,
+                "type" : result[1].toString(),
+              }).then((ml){
+                print("save image info successful");
+              }).catchError((e){
+                print("Failed to save image info " + e.toString());
+              });
+            }
           }
           else{
             if(isOpen){

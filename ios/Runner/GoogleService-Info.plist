@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>428396543697-3lc54scdankkn9facckhqta5c5vprvke.apps.googleusercontent.com</string>
+	<string>428396543697-7iedqt9o8gl6oardsmjhgcul7uo9p428.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.428396543697-3lc54scdankkn9facckhqta5c5vprvke</string>
+	<string>com.googleusercontent.apps.428396543697-7iedqt9o8gl6oardsmjhgcul7uo9p428</string>
 	<key>API_KEY</key>
 	<string>AIzaSyCrQRH1oAKNDWEFA-wqBrpZXKA90n9dI-0</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>a7st4990cpp.outfitter</string>
+	<string>a7st4990cpp.outfitterdiff3734200843</string>
 	<key>PROJECT_ID</key>
 	<string>outfitter-337d2</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,7 +29,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:428396543697:ios:88e5d7087326be2feb0ff0</string>
+	<string>1:428396543697:ios:67d61128b73ecfe5eb0ff0</string>
 	<key>DATABASE_URL</key>
 	<string>https://outfitter-337d2.firebaseio.com</string>
 </dict>

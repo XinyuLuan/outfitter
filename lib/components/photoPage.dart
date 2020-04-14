@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 // including message translation, plurals and genders, date/number formatting
 // and parsing, and bidirectional text.
 import 'package:intl/intl.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+//import 'package:firebase_database/firebase_database.dart';
+//import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
-import 'package:outfitter/twopanels.dart';
-import 'package:outfitter/home_page.dart';
+
+import 'display_pictureScreen.dart';
 
 class PhotoPage extends StatefulWidget {
   @override
@@ -27,6 +27,7 @@ class _PhotoPageState extends State<PhotoPage> {
 
   Future getImage() async {
     var tempImage = await ImagePicker.pickImage(source: ImageSource.gallery);
+    print("path: " + tempImage.path);
     setState(() {
       sampleImage = tempImage;
     });
@@ -52,27 +53,27 @@ class _PhotoPageState extends State<PhotoPage> {
     }
   }
 
-  void uploadStatusImage() async {
-    if(validateAndSave()){
-      /* put the image to firebase */
-      // the reference to contact the database in firebase, we can
-      // directly contact to the firebase because of the google-services.json file
-      final StorageReference postImageRef = FirebaseStorage.instance.ref().child("Post Images");
-
-      // use time to be the random key
-      var timeKey = DateTime.now();
-
-      // storage
-      final StorageUploadTask uploadTask = postImageRef.child(timeKey.toString() + ".jpg").putFile(sampleImage);
-
-//      var imageUrl = await( await uploadTask.onComplete).ref.getDownloadURL();
+//  void uploadStatusImage() async {
+//    if(validateAndSave()){
+//      /* put the image to firebase */
+//      // the reference to contact the database in firebase, we can
+//      // directly contact to the firebase because of the google-services.json file
+//      final StorageReference postImageRef = FirebaseStorage.instance.ref().child("Post Images");
 //
-//      url = imageUrl.toString();
-//      print("image url = " + url);
-      goToHomePage();
-//      saveToDatabase(url);
-    }
-  }
+//      // use time to be the random key
+//      var timeKey = DateTime.now();
+//
+//      // storage
+//      final StorageUploadTask uploadTask = postImageRef.child(timeKey.toString() + ".jpg").putFile(sampleImage);
+//
+////      var imageUrl = await( await uploadTask.onComplete).ref.getDownloadURL();
+////
+////      url = imageUrl.toString();
+////      print("image url = " + url);
+//      goToHomePage();
+////      saveToDatabase(url);
+//    }
+//  }
 
   void saveToDatabase(url){
     /**
@@ -86,7 +87,7 @@ class _PhotoPageState extends State<PhotoPage> {
     String date = formatDate.format(dbTimeKey);
     String time = formatTime.format(dbTimeKey);
 
-    DatabaseReference ref = FirebaseDatabase.instance.reference();
+//    DatabaseReference ref = FirebaseDatabase.instance.reference();
 
     var data = {
       "image": url,
@@ -95,65 +96,69 @@ class _PhotoPageState extends State<PhotoPage> {
       "time": time,
     };
 
-    ref.child("Posts").push().set(data);
+//    ref.child("Posts").push().set(data);
   }
 
-  void goToHomePage(){
-    Navigator.push(context, MaterialPageRoute(builder: (context)
-    {
-      return HomePage();
-    }));
+  void toDisplayImage() async{
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => DisplayPictureScreen(imagePath: sampleImage.path),
+      ),
+    );
+    print("result URL: " + result[0]);
+    Navigator.pop(context, result);
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: new Text("Upload Image"),
-        centerTitle: true,
-      ),
+//      appBar: AppBar(
+//        title: new Text("Upload Image"),
+//        centerTitle: true,
+//      ),
       body: Center(
-        child: sampleImage == null ? Text("Select an image"): enableUpload(),
+        child: sampleImage == null ? Text("Select an image"): DisplayPictureScreen(imagePath: sampleImage.path),
       ),
 
-      floatingActionButton: new FloatingActionButton(
-        onPressed: getImage,
-        tooltip: 'Add Image',
-        child: Icon(Icons.add_a_photo),
-      ),
+//      floatingActionButton: new FloatingActionButton(
+//        onPressed: getImage,
+//        tooltip: 'Add Image',
+//        child: Icon(Icons.add_a_photo),
+//      ),
     );
   }
 
-  Widget enableUpload(){
-    return Container(
-      child: Form(
-        key: formKey,
-        child: Column(
-          children: <Widget>[
-            Image.file(sampleImage, height: 250.0, width: 630.0,),
-            SizedBox(height: 15.0,),
-            TextFormField(
-              decoration: InputDecoration(labelText: 'Description'),
-              validator: (value){
-                return value.isEmpty ? 'Blod Description is required' : null;
-              },
-              onSaved: (value){
-                return _myvalue = value;
-              },
-            ),
-            SizedBox(height: 15.0,),
-            RaisedButton(
-              elevation: 10.0,
-              child: Text("Add"),
-              textColor: Colors.black,
-              color: Colors.amber,
-              onPressed: uploadStatusImage,
-              // Validate return true if the form is valid, otherwise false
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+//  Widget enableUpload(){
+//    return Container(
+//      child: Form(
+//        key: formKey,
+//        child: Column(
+//          children: <Widget>[
+//            Image.file(sampleImage, height: 250.0, width: 630.0,),
+//            SizedBox(height: 15.0,),
+//            TextFormField(
+//              decoration: InputDecoration(labelText: 'Description'),
+//              validator: (value){
+//                return value.isEmpty ? 'Blod Description is required' : null;
+//              },
+//              onSaved: (value){
+//                return _myvalue = value;
+//              },
+//            ),
+//            SizedBox(height: 15.0,),
+//            RaisedButton(
+//              elevation: 10.0,
+//              child: Text("Add"),
+//              textColor: Colors.black,
+//              color: Colors.amber,
+//              onPressed: uploadStatusImage,
+//              // Validate return true if the form is valid, otherwise false
+//            ),
+//          ],
+//        ),
+//      ),
+//    );
+//  }
 
 }
 
