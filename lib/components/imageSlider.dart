@@ -44,118 +44,120 @@ class _ImageSliderState extends State<ImageSlider> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          widget.tops.isEmpty?
-          Container(
+      child: Center(
+        child: ListView(
+//        mainAxisAlignment: MainAxisAlignment.center,
+//        crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            widget.tops.isEmpty?
+            Container(
+                padding: EdgeInsets.all(100.0),
+                child: Text("Select tops")
+            )
+            :
+            CarouselSlider(
+              height: 200,
+              initialPage: 0,
+              enlargeCenterPage: true, //make center image larger
+              //autoPlay: true,
+              onPageChanged: (index) {
+                setState(() {
+                  _current = index;
+                });
+              },
+              items: widget.tops.map((img) {
+                return Builder(
+                  builder: (BuildContext context) {
+                    return Container(
+                      width: MediaQuery.of(context).size.width, //screen width
+                      margin: EdgeInsets.symmetric(horizontal: 10.0),
+//                    decoration: BoxDecoration(color: Colors.amberAccent),
+                      child:  img.contains('http')
+                              ? Image.network(
+                                  img,
+                                  fit: BoxFit.fitHeight,
+                                )
+                              : Image.asset(
+                                  img,
+                                  fit: BoxFit.fitHeight,
+                                ),
+                    );
+                  },
+                );
+              }).toList(),
+            ),
+            widget.pants.isEmpty?
+            Container(
               padding: EdgeInsets.all(100.0),
-              child: Text("Select tops")
-          )
-          :
-          CarouselSlider(
-            height: 200,
-            initialPage: 0,
-            enlargeCenterPage: true, //make center image larger
-            //autoPlay: true,
-            onPageChanged: (index) {
-              setState(() {
-                _current = index;
-              });
-            },
-            items: widget.tops.map((img) {
-              return Builder(
-                builder: (BuildContext context) {
-                  return Container(
-                    width: MediaQuery.of(context).size.width, //screen width
-                    margin: EdgeInsets.symmetric(horizontal: 10.0),
+                child: Text("Select pants")
+            )
+                : CarouselSlider(
+              height: 250,
+              initialPage: 0,
+              enlargeCenterPage: true, //make center image larger
+              onPageChanged: (index) {
+                setState(() {
+                  _current = index;
+                });
+              },
+              items: widget.pants.map((img) {
+                return Builder(
+                  builder: (BuildContext context) {
+                    return Container(
+                      width: MediaQuery.of(context).size.width, //screen width
+                      margin: EdgeInsets.symmetric(horizontal: 10.0),
 //                    decoration: BoxDecoration(color: Colors.amberAccent),
-                    child:  img.contains('http')
-                            ? Image.network(
-                                img,
-                                fit: BoxFit.fitHeight,
-                              )
-                            : Image.asset(
-                                img,
-                                fit: BoxFit.fitHeight,
-                              ),
-                  );
-                },
-              );
-            }).toList(),
-          ),
-          widget.pants.isEmpty?
-          Container(
-            padding: EdgeInsets.all(100.0),
-              child: Text("Select pants")
-          )
-              : CarouselSlider(
-            height: 250,
-            initialPage: 0,
-            enlargeCenterPage: true, //make center image larger
-            onPageChanged: (index) {
-              setState(() {
-                _current = index;
-              });
-            },
-            items: widget.pants.map((img) {
-              return Builder(
-                builder: (BuildContext context) {
-                  return Container(
-                    width: MediaQuery.of(context).size.width, //screen width
-                    margin: EdgeInsets.symmetric(horizontal: 10.0),
+                      child: img.contains('http')
+                          ? Image.network(
+                              img,
+                              fit: BoxFit.fitHeight,
+                            )
+                          : Image.asset(
+                              img,
+                              fit: BoxFit.fitHeight,
+                            ),
+                    );
+                  },
+                );
+              }).toList(),
+            ),
+            widget.shoes.isEmpty ?
+            Container(
+                padding: EdgeInsets.all(50.0),
+                child: Text("Select shoes")
+            )
+          :CarouselSlider(
+              height: 80,
+              initialPage: 0,
+              enlargeCenterPage: true, //make center image larger
+              onPageChanged: (index) {
+                setState(() {
+                  _current = index;
+                });
+              },
+              items: widget.shoes.map((img) {
+                return Builder(
+                  builder: (BuildContext context) {
+                    return Container(
+                      width: MediaQuery.of(context).size.width, //screen width
+                      margin: EdgeInsets.symmetric(horizontal: 10.0),
 //                    decoration: BoxDecoration(color: Colors.amberAccent),
-                    child: img.contains('http')
-                        ? Image.network(
-                            img,
-                            fit: BoxFit.fitHeight,
-                          )
-                        : Image.asset(
-                            img,
-                            fit: BoxFit.fitHeight,
-                          ),
-                  );
-                },
-              );
-            }).toList(),
-          ),
-          widget.shoes.isEmpty?
-          Container(
-              padding: EdgeInsets.all(50.0),
-              child: Text("Select shoes")
-          )
-        :CarouselSlider(
-            height: 80,
-            initialPage: 0,
-            enlargeCenterPage: true, //make center image larger
-            onPageChanged: (index) {
-              setState(() {
-                _current = index;
-              });
-            },
-            items: widget.shoes.map((img) {
-              return Builder(
-                builder: (BuildContext context) {
-                  return Container(
-                    width: MediaQuery.of(context).size.width, //screen width
-                    margin: EdgeInsets.symmetric(horizontal: 10.0),
-//                    decoration: BoxDecoration(color: Colors.amberAccent),
-                    child: img.contains('http')
-                        ? Image.network(
-                            img,
-                            fit: BoxFit.fitHeight,
-                          )
-                        : Image.asset(
-                            img,
-                            fit: BoxFit.fitHeight,
-                          ),
-                  );
-                },
-              );
-            }).toList(),
-          ),
-        ],
+                      child: img.contains('http')
+                          ? Image.network(
+                              img,
+                              fit: BoxFit.fitHeight,
+                            )
+                          : Image.asset(
+                              img,
+                              fit: BoxFit.fitHeight,
+                            ),
+                    );
+                  },
+                );
+              }).toList(),
+            ),
+          ],
+        ),
       ),
     );
   }

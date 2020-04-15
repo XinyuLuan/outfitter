@@ -190,9 +190,6 @@ class _TwoPanels2State extends State<TwoPanels2> {
                       child: ImageSlider(tops: tops, pants: pants, shoes: shoes,),
                     ),
                   ),
-                  RaisedButton(onPressed: (){
-                    print(imageList.toString());
-                  }),
                 ],
               ),
             ),
