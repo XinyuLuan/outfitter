@@ -1,6 +1,6 @@
 # outfitter
 
-A E-commerce planet for clothes. It can help people make a better outfitting plan for their wardrobe.
+A outfit planet for clothes. It can help people make a better outfitting plan for their wardrobe.
 
 ## Getting Started
 
