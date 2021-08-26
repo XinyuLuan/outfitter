@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:uuid/uuid.dart';
 
 // enum for type
@@ -26,6 +27,7 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
     final String uuid = Uuid().v1();
 //    final Directory systemTempDir = Directory.systemTemp;
     final File file = await File(widget.imagePath).create();
+
     final StorageReference ref = storage.ref().child('photos').child(
         'photo-$uuid.png');
     final StorageUploadTask uploadTask = ref.putFile(

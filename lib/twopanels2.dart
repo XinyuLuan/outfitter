@@ -82,7 +82,6 @@ class _TwoPanels2State extends State<TwoPanels2> {
 
   void _loadImage(){
     ref.child("photos/").once().then((DataSnapshot snapshot) {
-//      print('Data is Cofifi : ${snapshot.value}');
       var tempList = [];
       print("Load images successful in panel");
       snapshot.value.forEach((k, v){

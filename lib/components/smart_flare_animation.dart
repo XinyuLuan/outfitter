@@ -11,6 +11,8 @@ import 'package:image_picker/image_picker.dart';
 import 'cameraView.dart';
 import 'display_pictureScreen.dart';
 
+import "package:image_cropper/image_cropper.dart";
+
 enum AnimationToPlay {
   Activate,
   Deactivate,
@@ -52,9 +54,26 @@ class _SmartFlareAnimationState extends State<SmartFlareAnimation> {
 
   Future getImage() async {
     var tempImage = await ImagePicker.pickImage(source: ImageSource.gallery).then((img){
-//      print();
+
     });
     print("path: " + tempImage.path);
+    if(tempImage != null){
+      File cropped = await ImageCropper.cropImage(
+        sourcePath: tempImage.path,
+        aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
+        compressQuality: 100,
+        maxWidth: 700,
+        maxHeight: 700,
+        compressFormat: ImageCompressFormat.jpg,
+        androidUiSettings: AndroidUiSettings(
+          toolbarColor: Colors.amber,
+          toolbarTitle: "RPS Cropper",
+          statusBarColor: Colors.amber.shade900,
+          backgroundColor: Colors.white,
+        ),
+      );
+
+    }
     setState(() {
       pickedImage = tempImage;
     });
@@ -87,7 +106,7 @@ class _SmartFlareAnimationState extends State<SmartFlareAnimation> {
               final result = await Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => TakePictureScreen(camera: firstCamera)
+//                    builder: (context) => TakePictureScreen(camera: firstCamera)
                 ),
               );
               if(result != null){

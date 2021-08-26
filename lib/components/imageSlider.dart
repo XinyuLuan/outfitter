@@ -52,7 +52,7 @@ class _ImageSliderState extends State<ImageSlider> {
             widget.tops.isEmpty?
             Container(
                 padding: EdgeInsets.all(100.0),
-                child: Text("Select tops")
+                child: Text("")
             )
             :
             CarouselSlider(
@@ -89,7 +89,7 @@ class _ImageSliderState extends State<ImageSlider> {
             widget.pants.isEmpty?
             Container(
               padding: EdgeInsets.all(100.0),
-                child: Text("Select pants")
+                child: Text("")
             )
                 : CarouselSlider(
               height: 250,
@@ -124,7 +124,7 @@ class _ImageSliderState extends State<ImageSlider> {
             widget.shoes.isEmpty ?
             Container(
                 padding: EdgeInsets.all(50.0),
-                child: Text("Select shoes")
+                child: Text("")
             )
           :CarouselSlider(
               height: 80,
